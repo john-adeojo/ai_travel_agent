@@ -13,13 +13,12 @@ def read_config():
             configs = yaml.safe_load(stream)
             api_key = configs['amadeues_flights']['api_key']
             api_secret = configs['amadeues_flights']['api_secret']
-            openai_key = configs['openai']['openai_key']
-            hugging_api_key = configs['huggingfacehub']['hugging_api_key']
-            return api_key, api_secret, openai_key, hugging_api_key
+
+            return api_key, api_secret
         except yaml.YAMLError as exc:
             print(exc)
             
-    return api_key, api_secret, openai_key
+    return api_key, api_secret
 
 class SingletonToken:
     __token = None
