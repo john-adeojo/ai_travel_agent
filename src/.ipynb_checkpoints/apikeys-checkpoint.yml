@@ -5,5 +5,7 @@ amadeues_flights:
    api_secret: XpF14SwN2uWcfkA2
 openai:
    openai_key: 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
+huggingfacehub:
+   hugging_api_key: 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
 
     
