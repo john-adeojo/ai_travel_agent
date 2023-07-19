@@ -31,9 +31,28 @@ if openai_key:
     # If OpenAI key and data_url are set, enable the chat interface
     st.title("Find my flights🛫 ")
     query_user = placeholder.text_input("Search for flights...")
-    query = f'''Based on the user query: {query_user} do the following: 
-Return all of the relevant information required to book the flights.
-Some Journeys are indirect meaning they have multiple legs, remember to factor this into your calculation. The prices quoted are the total price for the journey. Use search to return links to the flight booking pages.
+    query = f'''Based on the user query about flights:{query_user}, respond with the following structure delimited by quotation marks as an example:
+    
+"
+The response should be returned like this for the example of a customer flying from London to Tokyo and back: 
+
+I now have the 5 cheapest flights from London to Tokyo departing on the 30th of August 2023 and returning on the 15th of September 2023. 
+
+|   Journey ID |   Leg ID | Outbound Departure   | Outbound Arrival    | Return Departure    | Return Arrival      | Dep Airport   | Arrival Airport   | Airline    | Total       |
+|-------------:|---------:|:---------------------|:--------------------|:--------------------|:--------------------|:--------------|:------------------|:-----------|:------------|
+|          167 |        1 | 2023-08-30T09:40:00  | 2023-08-31T10:40:00 |                     |                     | LHR           | CDG               | AIR France | 1422.79 EUR |
+|              |        2 | 2023-08-31T10:40:00  | 2023-08-31T22:40:00 |                     |                     | CDG           | HND               | AIR France |             |
+|              |        1 |                      |                     | 2023-09-15T09:40:00 | 2023-09-16T05:35:00 | HND           | CDG               | AIR France |             |
+|              |        2 |                      |                     | 2023-09-16T06:35:00 | 2023-09-16T07:35:00 | CDG           | LHR               | AIR France |             |
+|          168 |        1 | 2023-08-30T09:40:00  | 2023-08-31T22:40:00 |                     |                     | LHR           | HND               | Air Tokyo  | 1550 EUR    |
+|              |        1 |                      |                     | 2023-09-15T09:40:00 | 2023-09-16T07:35:00 | HND           | LHR               | Air Tokyo  |            |
+
+
+"
+Journeys can have multiple legs, Any calculations must be done at the Journey ID level. Do not filter on specific legs. For example:
+Tokyo to London could be 2 two legs HND to CDG then CDG to LHR. It could also be HND to CDG. Filtering for departure = CDG and destination = LHR
+will lead you to miss Journeys with two legs.
+
 '''
     
     if st.button("Submit"):
