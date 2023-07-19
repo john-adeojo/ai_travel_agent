@@ -1,0 +1,5 @@
+,journey_id,flight_departure_iataCode,flight_arrival_iataCode,Journey Start,Journey End,travel_direction
+716,180,LHR,HKG,LHR,HND,inbound
+717,180,HKG,HND,HND,LHR,outbound
+718,180,HND,HKG,LHR,HND,inbound
+719,180,HKG,LHR,LHR,HND,inbound

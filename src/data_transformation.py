@@ -41,14 +41,36 @@ def journey_data(response_flights_data, response_airline_lookup_data, originLoca
     df_flights['total_legs'] = df_flights.groupby('id')['leg_id'].transform('max')
     
     df_flights = df_flights.merge(right=df_airline_codes, how='left', left_on="flight_operating.carrierCode", right_on="iataCode")
-    df_flights.rename(columns={"id":"journey_id", "commonName":"airline" }, inplace=True)
+    df_flights.rename(columns={"id":"journey_id", "commonName":"airline", "flight_arrival_at": "flight_arrival_time", "flight_departure_at": "flight_departure_time"  }, inplace=True)
 
     df_flights.drop(columns=["flight_id", "validatingAirlineCodes", "businessName", "flight_operating.carrierCode", "flight_aircraft.code", "flight_stops"], inplace=True)
 
     df_flights.columns = df_flights.columns.str.replace('.', '_')
     df_flights['total'] = pd.to_numeric(df_flights['total'], errors='coerce')
 
-    df_flights['Journey Start'] = originLocationCode
-    df_flights['Journey Start'] = destinationLocationCode
+    outbound_origin = originLocationCode
+    outbound_destination = destinationLocationCode
+    inbound_origin = destinationLocationCode
+    inbound_destination = originLocationCode
+
+    # Create conditions
+    cond1 = (df_flights['flight_departure_iataCode'] == outbound_origin) | (df_flights['flight_arrival_iataCode'] == destinationLocationCode)
+    cond2 = (df_flights['flight_departure_iataCode'] == inbound_origin) | (df_flights['flight_arrival_iataCode'] == inbound_destination)
+
+    # Update 'Journey Start' and 'Journey End' based on conditions
+    df_flights.loc[cond1, 'Journey Start'] = originLocationCode
+    df_flights.loc[cond1, 'Journey End'] = destinationLocationCode
+    df_flights.loc[cond2, 'Journey Start'] = destinationLocationCode
+    df_flights.loc[cond2, 'Journey End'] = originLocationCode
+    
+    # Update 'travel_direction' based on 'Journey Start'
+    df_flights.loc[df_flights['Journey Start'] == originLocationCode, 'travel_direction'] = 'Inbound'
+    df_flights.loc[df_flights['Journey Start'] == destinationLocationCode, 'travel_direction'] = 'Outbound'
+
+    df_flights.loc[df_flights['flight_arrival_iataCode'] == df_flights['Journey End'], 'flight_arrival_iataCode'] = 'N/A'
+    df_flights.loc[df_flights['flight_departure_iataCode'] == df_flights['Journey Start'], 'flight_departure_iataCode'] = 'N/A'
+
+    df_flights.rename(columns={'flight_departure_iataCode': 'intermediate_journey_departure', 
+                           'flight_arrival_iataCode': 'intermediate_journey_arrival'}, inplace=True)
 
     return df_flights
