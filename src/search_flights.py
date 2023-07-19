@@ -43,7 +43,7 @@ def search_for_flights(originLocationCode, destinationLocationCode, departureDat
         print(f"Error code airline lookup: {error.code}")
         print(f"Error message airline lookup: {error.description}")
 
-    df_flights = journey_data(response_flights.data, response_airline_lookup.data)
+    df_flights = journey_data(response_flights.data, response_airline_lookup.data, originLocationCode, destinationLocationCode)
     db = load_data(df_flights)
 
     return db, df_flights

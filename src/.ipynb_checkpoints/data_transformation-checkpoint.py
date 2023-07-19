@@ -1,6 +1,6 @@
 import pandas as pd
 
-def journey_data(response_flights_data, response_airline_lookup_data):
+def journey_data(response_flights_data, response_airline_lookup_data, originLocationCode, destinationLocationCode):
     # Load the data into a DataFrame
     df = pd.DataFrame(response_flights_data)
     df_airline_codes = pd.json_normalize(response_airline_lookup_data)
@@ -47,5 +47,8 @@ def journey_data(response_flights_data, response_airline_lookup_data):
 
     df_flights.columns = df_flights.columns.str.replace('.', '_')
     df_flights['total'] = pd.to_numeric(df_flights['total'], errors='coerce')
+
+    df_flights['Journey Start'] = originLocationCode
+    df_flights['Journey Start'] = destinationLocationCode
 
     return df_flights

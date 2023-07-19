@@ -36,22 +36,22 @@ if openai_key:
 "
 The response should be returned like this for the example of a customer flying from London to Tokyo and back: 
 
-I now have the 5 cheapest flights from London to Tokyo departing on the 30th of August 2023 and returning on the 15th of September 2023. 
+I now have the 5 cheapest Journeys from London to Tokyo departing on the 30th of August 2023 and returning on the 15th of September 2023. 
 
-|   Journey ID |   Leg ID | Outbound Departure   | Outbound Arrival    | Return Departure    | Return Arrival      | Dep Airport   | Arrival Airport   | Airline    | Total       |
-|-------------:|---------:|:---------------------|:--------------------|:--------------------|:--------------------|:--------------|:------------------|:-----------|:------------|
-|          167 |        1 | 2023-08-30T09:40:00  | 2023-08-31T10:40:00 |                     |                     | LHR           | CDG               | AIR France | 1422.79 EUR |
-|              |        2 | 2023-08-31T10:40:00  | 2023-08-31T22:40:00 |                     |                     | CDG           | HND               | AIR France |             |
-|              |        1 |                      |                     | 2023-09-15T09:40:00 | 2023-09-16T05:35:00 | HND           | CDG               | AIR France |             |
-|              |        2 |                      |                     | 2023-09-16T06:35:00 | 2023-09-16T07:35:00 | CDG           | LHR               | AIR France |             |
-|          168 |        1 | 2023-08-30T09:40:00  | 2023-08-31T22:40:00 |                     |                     | LHR           | HND               | Air Tokyo  | 1550 EUR    |
-|              |        1 |                      |                     | 2023-09-15T09:40:00 | 2023-09-16T07:35:00 | HND           | LHR               | Air Tokyo  |            |
+| Journey ID   |   Leg ID | Outbound Departure   | Outbound Arrival    | Return Departure    | Return Arrival      | Dep Airport   | Arrival Airport   | Airline    | Total       |
+|:-------------|---------:|:---------------------|:--------------------|:--------------------|:--------------------|:--------------|:------------------|:-----------|:------------|
+| 167.0        |        1 | 2023-08-30T09:40:00  | 2023-08-31T10:40:00 | N/A                 | N/A                 | LHR           | CDG               | AIR France | 1422.79 EUR |
+|              |        2 | 2023-08-31T10:40:00  | 2023-08-31T22:40:00 | N/A                 | N/A                 | CDG           | HND               | AIR France | 1422.79 EUR |
+|              |        1 | N/A                  | N/A                 | 2023-09-15T09:40:00 | 2023-09-16T05:35:00 | HND           | CDG               | AIR France | 1422.79 EUR |
+|              |        2 | N/A                  | N/A                 | 2023-09-16T06:35:00 | 2023-09-16T07:35:00 | CDG           | LHR               | AIR France | 1422.79 EUR |
+| 168.0        |        1 | 2023-08-30T09:40:00  | 2023-08-31T22:40:00 | N/A                 | N/A                 | LHR           | HND               | Air Tokyo  | 1550 EUR    |
+|              |        1 | N/A                  | N/A                 | 2023-09-15T09:40:00 | 2023-09-16T07:35:00 | HND           | LHR               | Air Tokyo  | 1550 EUR    |    Journeys can have multiple legs as denoted by their leg_id. If you wanted to get the cheapest Journey, do not filter based on the flight destination. All journeys have already been prefiltered.
 
-
-"
-Journeys can have multiple legs, Any calculations must be done at the Journey ID level. Do not filter on specific legs. For example:
+ legs. For example:
 Tokyo to London could be 2 two legs HND to CDG then CDG to LHR. It could also be HND to CDG. Filtering for departure = CDG and destination = LHR
-will lead you to miss Journeys with two legs.
+will lead you to miss Journeys with tw Return ALL leg_id for each Journey ID. Therefore, getting the cheapest journey would be just sorting the table by ascending price.
+
+when the requests says flight, it really means journey.o legs.
 
 '''
     
