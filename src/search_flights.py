@@ -1,15 +1,11 @@
 from amadeus import Client, ResponseError
-from load_data import load_data
+from create_database import load_data
 from data_transformation import journey_data
+from utils import read_config
+import os
 
 
-def search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults) -> SQLDatabase:
-    """Requests flight data from Amadeus API and writes to sqllite database and run SQLDatabaseQuery
-    originLocationCode: Based on the query, respond with the iataCode for the origin airport,
-    destinationLocationCode: Based on the query, respond with the iataCode for the destination airport,
-    departureDate: Based on the query, respond with the departure date,
-    num_adults: Based on the query, respond with the number of adults
-    """
+def search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults):
     # get API keys
     try:
         api_key, api_secret = read_config()

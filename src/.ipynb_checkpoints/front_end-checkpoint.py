@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from utils import read_config, SingletonToken
-from run_chain import get_args, find_flights
+from utils import SingletonToken
+from run_chains import get_args, find_flights
 from search_flights import search_for_flights
 import io
 from io import StringIO
@@ -23,6 +23,8 @@ placeholder = st.empty()
 
 if openai_key:
     SingletonToken.set_token(openai_key)
+    openai_key = SingletonToken.get_token()
+    print("API_KEY!!!", openai_key)
     
     # If OpenAI key and data_url are set, enable the chat interface
     st.title("Find my flights🛫 ")
@@ -32,9 +34,8 @@ Return all of the relevant information required to book the flights.
 Some Journeys are indirect meaning they have multiple legs, remember to factor this into your calculation. The prices quoted are the total price for the journey. Use search to return links to the flight booking pages.
 '''
     
-    
     if st.button("Submit"):
-        num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode = get_args(query_user)
+        num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode = get_args(query_user, openai_key)
         db, df_flights = search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults)
         llm=ChatOpenAI(temperature=0, model="gpt-4-0613", openai_api_key=openai_key)
         response = find_flights(query, llm)

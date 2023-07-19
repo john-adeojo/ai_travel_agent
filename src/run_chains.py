@@ -10,7 +10,7 @@ from langchain.agents.agent_types import AgentType
 from langchain.chat_models import ChatOpenAI
 
 
-def get_args(query_user):
+def get_args(query_user, openai_key):
     # OpenAI function calling
 
     function_call = [

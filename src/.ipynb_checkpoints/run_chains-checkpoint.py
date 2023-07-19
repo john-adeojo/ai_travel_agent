@@ -10,7 +10,7 @@ from langchain.agents.agent_types import AgentType
 from langchain.chat_models import ChatOpenAI
 
 
-def get_args(query_user):
+def get_args(query_user, openai_key):
     # OpenAI function calling
 
     function_call = [
@@ -76,8 +76,9 @@ def get_args(query_user):
     return num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode
 
 
+# run SQLDatabase chain
 def find_flights(query, llm):
-    '''creates agent that can be run on db to answer query flights'''
+    
     llm=llm
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
     agent_executor = create_sql_agent(
