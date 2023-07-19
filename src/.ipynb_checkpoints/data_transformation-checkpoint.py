@@ -43,7 +43,7 @@ def journey_data(response_flights_data, response_airline_lookup_data):
     df_flights = df_flights.merge(right=df_airline_codes, how='left', left_on="flight_operating.carrierCode", right_on="iataCode")
     df_flights.rename(columns={"id":"journey_id", "commonName":"airline" }, inplace=True)
 
-    df_flights.drop(columns=["flight_id", "validatingAirlineCodes", "businessName", "flight_operating.carrierCode", "flight_aircraft.code"], inplace=True)
+    df_flights.drop(columns=["flight_id", "validatingAirlineCodes", "businessName", "flight_operating.carrierCode", "flight_aircraft.code", "flight_stops"], inplace=True)
 
     df_flights.columns = df_flights.columns.str.replace('.', '_')
     df_flights['total'] = pd.to_numeric(df_flights['total'], errors='coerce')

@@ -5,6 +5,8 @@ from run_chains import get_args, find_flights
 from search_flights import search_for_flights
 import io
 from io import StringIO
+from langchain.chat_models import ChatOpenAI
+
 
 st.markdown(
     
@@ -38,10 +40,7 @@ Some Journeys are indirect meaning they have multiple legs, remember to factor t
         num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode = get_args(query_user, openai_key)
         db, df_flights = search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults)
         llm=ChatOpenAI(temperature=0, model="gpt-4-0613", openai_api_key=openai_key)
-        response = find_flights(query, llm)
-        df = get_weather(location_response, location)
-        db = load_data(df)
-        response = run_query(query_b, db)
+        response = find_flights(query, llm, db)
         st.markdown(f"Suggestions: {response}")
         
         # st.write("Response: ", response)

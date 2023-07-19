@@ -50,7 +50,7 @@ def get_args(query_user, openai_key):
     openai.api_key = openai_key
 
     message = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-0613",
+        model="gpt-4-0613",
         messages=[{"role": "user", "content": query_user}],
         functions = function_call,
         function_call = 'auto',
@@ -77,7 +77,7 @@ def get_args(query_user, openai_key):
 
 
 # run SQLDatabase chain
-def find_flights(query, llm):
+def find_flights(query, llm, db):
     
     llm=llm
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
