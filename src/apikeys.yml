@@ -1,11 +1,5 @@
-alpha_vantage: 
-   api_key: S8FXDR5KTK09K3XW
 amadeues_flights:
    api_key: t09OfctGEcA7qDCHcp2m1gTZ9yN7Cgzu
    api_secret: XpF14SwN2uWcfkA2
-openai:
-   openai_key: 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
-huggingfacehub:
-   hugging_api_key: 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
 
     
