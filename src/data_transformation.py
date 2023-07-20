@@ -45,8 +45,12 @@ def journey_data(response_flights_data, response_airline_lookup_data, originLoca
     df_flights = df_flights.merge(right=df_airline_codes, how='left', left_on="flight_operating.carrierCode", right_on="iataCode")
     df_flights.rename(columns={"id":"journey_id", "commonName":"airline" }, inplace=True)
 
-    df_flights.drop(columns=["flight_id", "validatingAirlineCodes", "businessName", "flight_operating.carrierCode", "flight_aircraft.code", "flight_stops"], inplace=True)
-
+    try:
+        df_flights.drop(columns=["flight_id", "validatingAirlineCodes", "businessName", "flight_operating.carrierCode", "flight_aircraft.code", "flight_stops"], inplace=True)
+    except Exception as e:
+        print(f"Flight stops non existent: {e}, will skip removal")
+        df_flights.drop(columns=["flight_id", "validatingAirlineCodes", "businessName", "flight_operating.carrierCode", "flight_aircraft.code"], inplace=True)
+        
     df_flights.columns = df_flights.columns.str.replace('.', '_')
     df_flights['total'] = pd.to_numeric(df_flights['total'], errors='coerce')
 
@@ -56,10 +60,6 @@ def journey_data(response_flights_data, response_airline_lookup_data, originLoca
     df_flights['flight_departure_at'] = pd.to_datetime(df_flights['flight_departure_at'])
     df_flights['flight_arrival_at'] = pd.to_datetime(df_flights['flight_arrival_at'])
 
-    # calculate total duration 
-    total_duration = df_flights.groupby('journey_id')['flight_duration'].sum().reset_index()
-    total_duration.rename(columns={'flight_duration': 'total_duration'}, inplace=True)
-    df_flights = pd.merge(df_flights, total_duration, on='journey_id')
 
     outbound_origin = originLocationCode
     outbound_destination = destinationLocationCode
@@ -82,6 +82,11 @@ def journey_data(response_flights_data, response_airline_lookup_data, originLoca
 
     df_flights.loc[df_flights['flight_arrival_iataCode'] == df_flights['Journey End'], 'flight_arrival_iataCode'] = 'N/A'
     df_flights.loc[df_flights['flight_departure_iataCode'] == df_flights['Journey Start'], 'flight_departure_iataCode'] = 'N/A'
+
+    # calculate total duration 
+    total_duration = df_flights.groupby(['journey_id', 'travel_direction'])['flight_duration'].sum().reset_index()
+    total_duration.rename(columns={'flight_duration': 'total_duration'}, inplace=True)
+    df_flights = pd.merge(df_flights, total_duration, on=['journey_id', 'travel_direction'])
 
     df_flights.rename(columns={'flight_departure_iataCode': 'intermediate_journey_departure', 
                            'flight_arrival_iataCode': 'intermediate_journey_arrival'}, inplace=True)

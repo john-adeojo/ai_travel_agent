@@ -78,18 +78,11 @@ def query_template(query_user):
 "
 The response should be returned with the structure given which represents one complete journey: 
 
-Journey ID - Outbound
-- Departure	
-- Arrival	
-- Journey Start	
-- Journey End 
-- Intermediate Departure	
-- Intermediate Arrival	
-- Airline	
-- Flight Duration (hrs)	
-- Total
 
-Journey ID - Inbound
+Journey ID: , Total (In the currency):
+
+- Outbound
+# return the list below for each leg ID
 - Departure	
 - Arrival	
 - Journey Start	
@@ -97,8 +90,18 @@ Journey ID - Inbound
 - Intermediate Departure	
 - Intermediate Arrival	
 - Airline	
-- Flight Duration (hrs)	
-- Total
+- Total Duration (hrs)	
+
+- Inbound
+# return the list below for each leg ID
+- Departure	
+- Arrival	
+- Journey Start	
+- Journey End 
+- Intermediate Departure	
+- Intermediate Arrival	
+- Airline	
+- Total Duration (hrs)	
 
 return up to five complete journeys. A complete journey includes all the associated flights.
 
