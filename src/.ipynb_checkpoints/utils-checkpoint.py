@@ -78,11 +78,10 @@ def query_template(query_user):
 "
 The response should be returned with the structure given which represents one complete journey: 
 
+## Journey ID: , Total (In the currency):
 
-Journey ID: , Total (In the currency):
-
-- Outbound
-# return the list below for each leg ID
+### Outbound
+For each leg ID, please consider:
 - Departure	
 - Arrival	
 - Journey Start	
@@ -92,8 +91,8 @@ Journey ID: , Total (In the currency):
 - Airline	
 - Total Duration (hrs)	
 
-- Inbound
-# return the list below for each leg ID
+### Inbound
+For each leg ID, please consider:
 - Departure	
 - Arrival	
 - Journey Start	
@@ -102,10 +101,9 @@ Journey ID: , Total (In the currency):
 - Intermediate Arrival	
 - Airline	
 - Total Duration (hrs)	
-
-return up to five complete journeys. A complete journey includes all the associated flights.
 
 "
+Please return up to 8 COMPLETE journeys. A complete journey includes all the associated flights.
 Return all legs for each Journey ID. when the requests mentions flight or flights, it really means Journey.
 
 '''

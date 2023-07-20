@@ -26,7 +26,6 @@ placeholder = st.empty()
 if openai_key:
     SingletonToken.set_token(openai_key)
     openai_key = SingletonToken.get_token()
-    print("API_KEY!!!", openai_key)
     
     # If OpenAI key and data_url are set, enable the chat interface
     st.title("Find my flights🛫 ")
