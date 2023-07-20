@@ -30,7 +30,7 @@ Once the environment is activated, you need to update the `utils.py` to navigate
 
 Once the session is open, navigate to `utils.py` and change the `scrip_dir` on line 23 to the directory you saved `apikeys.yml`. 
 
-**Important: Make sure you have entered your own Amadeus API Key and Secret in the `apikeys.yml` file.**
+**Important: Make sure you have entered your own Amadeus API Key and Secret in the `apikeys.yml` file provided in this repo**
 
 Save the `utils.py` file after making these changes.
 
