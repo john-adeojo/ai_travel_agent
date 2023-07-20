@@ -29,6 +29,8 @@ def pull_flights(originLocationCode, destinationLocationCode, departureDate, ret
     Returns:
     db (SQLDatabase): An SQLite database containing the processed flight data.
     """
+
+    
     try:
         api_key, api_secret = read_config()
     except Exception as e:

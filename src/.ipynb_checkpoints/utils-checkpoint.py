@@ -20,7 +20,7 @@ def read_config():
     """
     
     # Get the directory of the current script
-    script_dir = "C:/Users/johna/OneDrive/Documents/api_keys"
+    script_dir = "C:/Users/johna/OneDrive/Documents/api_keys/"
 
     # Construct the full path to the configuration file
     file_path = os.path.join(script_dir, "apikeys.yml")
