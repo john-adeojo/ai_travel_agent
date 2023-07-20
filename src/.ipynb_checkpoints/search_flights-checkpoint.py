@@ -4,10 +4,25 @@ from data_transformation import journey_data
 from utils import read_config
 import os
 
-
 def search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults):
+    """
+    Searches for flights using the Amadeus API and returns structured data.
 
-    # get API keys
+    This function uses the Amadeus flight search API to find flights matching the given parameters. 
+    It also retrieves airline lookup data using the Amadeus reference data API. The raw response data 
+    from both APIs is processed into structured dataframes using the `journey_data()` function. 
+    This processed data is then loaded into an SQLite database using the `load_data()` function.
+
+    Parameters:
+    originLocationCode (str): The IATA code of the origin location.
+    destinationLocationCode (str): The IATA code of the destination location.
+    departureDate (str): The desired departure date in 'YYYY-MM-DD' format.
+    returnDate (str): The desired return date in 'YYYY-MM-DD' format.
+    num_adults (int): The number of adults for the flight.
+
+    Returns:
+    db (SQLDatabase): An SQLite database containing the processed flight data.
+    """
     try:
         api_key, api_secret = read_config()
     except Exception as e:
@@ -48,4 +63,4 @@ def search_for_flights(originLocationCode, destinationLocationCode, departureDat
     print(df_flights.dtypes)
     db = load_data(journey_pricing, flights)
 
-    return db, df_flights, journey_pricing, flights
+    return db

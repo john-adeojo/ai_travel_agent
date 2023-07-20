@@ -3,7 +3,6 @@ import openai
 from langchain.tools import tool
 from langchain.agents import create_sql_agent
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-# from langchain.sql_database import SQLDatabase
 from langchain.llms.openai import OpenAI
 from langchain.agents import AgentExecutor
 from langchain.agents.agent_types import AgentType
@@ -11,7 +10,24 @@ from langchain.chat_models import ChatOpenAI
 
 
 def get_args(query_user, openai_key):
-    # OpenAI function calling
+    """
+    Extracts necessary parameters for flight search from user query using OpenAI API.
+    
+    This function takes a user query and an OpenAI key as inputs, sends the user query to 
+    OpenAI API to extract necessary parameters including the number of adults, departure date,
+    return date, destination location code, and origin location code for flight search.
+
+    Parameters:
+    query_user (str): User query to be sent to OpenAI API.
+    openai_key (str): OpenAI key to authenticate with the API.
+
+    Returns:
+    num_adults (int): Number of adults for the flight.
+    departureDate (str): Departure date in the format YYYY-MM-DD.
+    returnDate (str): Return date in the format YYYY-MM-DD.
+    destinationLocationCode (str): IATA code for the destination location.
+    originLocationCode (str): IATA code for the origin location.
+    """
 
     function_call = [
     {
@@ -78,6 +94,18 @@ def get_args(query_user, openai_key):
 
 # run SQLDatabase chain
 def find_flights(query, llm, db):
+
+        """
+    Executes a search for flights using a language model and a SQL database toolkit.
+
+    Parameters:
+    query (str): The query to be executed, typically a natural language description of the flights to find.
+    llm (LanguageModel): The language model used to process the query and generate SQL commands.
+    db (Database): The database object where the flight data is stored and from which data will be retrieved.
+
+    Returns:
+    Response: The response from the agent executor's run method, typically containing the search results or an error message.
+    """
     
     llm=llm
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)

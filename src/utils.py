@@ -1,7 +1,20 @@
 import yaml
 import os
+from dateutil.relativedelta import relativedelta
+import re
 
 def read_config():
+    """
+    Reads API key and secret from a configuration file.
+
+    This function opens a configuration file named "apikeys.yml", reads the API key and secret for 
+    the Amadeus Flights API, and returns these values.
+
+    Returns:
+    api_key (str): The API key for the Amadeus Flights API.
+    api_secret (str): The API secret for the Amadeus Flights API.
+    """
+    
     # Get the directory of the current script
     script_dir = "../src/"
 
@@ -21,6 +34,13 @@ def read_config():
     return api_key, api_secret
 
 class SingletonToken:
+    """
+    Implements a singleton token.
+
+    This class is used to implement a singleton token which can be set and retrieved using the 
+    set_token() and get_token() class methods respectively. The token is stored in a private class 
+    variable and can be accessed across different instances of the class.
+    """
     __token = None
 
     @classmethod
@@ -31,10 +51,21 @@ class SingletonToken:
     def get_token(cls):
         return cls.__token
 
-from dateutil.relativedelta import relativedelta
-import re
 
 def parse_duration(duration_str):
+    """
+    Parses a duration string and returns the duration in hours.
+
+    This function takes a duration string of the form 'PTxHxM', where 'x' represents a number, 
+    extracts the hours and minutes, and returns the total duration in hours.
+
+    Parameters:
+    duration_str (str): A string representing the duration in the form 'PTxHxM'.
+
+    Returns:
+    duration_in_hours (float): The total duration in hours.
+    """
+    
     # Extract hours and minutes from the duration string
     hours = re.search('(\d+)H', duration_str)
     minutes = re.search('(\d+)M', duration_str)
@@ -72,6 +103,20 @@ def parse_duration(duration_str):
 
 
 def query_template(query_user):
+
+    """
+    Generates a formatted query string for flight search based on the user query.
+
+    This function takes a user query about flights and formats it into a string that describes the 
+    required structure of the response. The structure includes details about the outbound and inbound 
+    flights for each journey, and each leg within these flights.
+
+    Parameters:
+    query_user (str): A string representing the user's query about flights.
+
+    Returns:
+    query (str): A formatted string that describes the required structure of the response.
+    """
 
     query = f'''Based on the user query about flights:{query_user}, respond with following structure delimited by quotation marks as an example:
     

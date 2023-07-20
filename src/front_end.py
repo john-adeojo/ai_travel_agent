@@ -34,7 +34,7 @@ if openai_key:
     
     if st.button("Submit"):
         num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode = get_args(query_user, openai_key)
-        db, _, _, _, = search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults)
+        db = search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults)
         llm=ChatOpenAI(temperature=0, model="gpt-4-0613", openai_api_key=openai_key)
         response = find_flights(query, llm, db)
         st.markdown(f"Suggestions: {response}")

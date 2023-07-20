@@ -3,6 +3,27 @@ import numpy as np
 from utils import parse_duration
 
 def journey_data(response_flights_data, response_airline_lookup_data, originLocationCode, destinationLocationCode):
+
+    """
+    Processes raw flight data and airline lookup data, and returns structured journey data.
+
+    This function takes raw response data from a flight search API and an airline lookup API, and processes it 
+    into structured dataframes. The function handles extraction of itinerary details, validation of airline codes, 
+    and calculation of total journey duration. It also generates several additional data fields for 
+    convenience, such as 'journey_id', 'travel_direction', and 'total_legs'.
+
+    Parameters:
+    response_flights_data (list): A list of dictionaries containing raw flight data from the flight search API.
+    response_airline_lookup_data (list): A list of dictionaries containing airline lookup data from the airline lookup API.
+    originLocationCode (str): The IATA code of the origin location.
+    destinationLocationCode (str): The IATA code of the destination location.
+
+    Returns:
+    df_flights (DataFrame): A DataFrame containing processed flight data, with each row representing a leg of a journey.
+    journey_pricing (DataFrame): A DataFrame containing pricing information for each journey.
+    flights (DataFrame): A DataFrame containing detailed information for each leg of each journey.
+    """
+
     # Load the data into a DataFrame
     df = pd.DataFrame(response_flights_data)
     df_airline_codes = pd.json_normalize(response_airline_lookup_data)
