@@ -1,3 +1,8 @@
+"""
+This module provides functionality to load data into a
+sqlite database stored in memory
+"""
+
 from sqlalchemy import create_engine
 import pandas as pd
 from langchain import SQLDatabase

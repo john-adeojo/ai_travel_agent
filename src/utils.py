@@ -1,3 +1,7 @@
+"""
+This module provides utility functions
+"""
+
 import yaml
 import os
 from dateutil.relativedelta import relativedelta
@@ -77,31 +81,6 @@ def parse_duration(duration_str):
 
     return duration_in_hours
 
-# def query_template(query_user):
-
-#     query = f'''Based on the user query about flights:{query_user}, respond with the following structure delimited by quotation marks as an example:
-    
-# "
-# The response should be returned with the structure given for this for the example of a customer flying from London to Tokyo and back requesting the journey: 
-
-# I now have the 20 cheapest Journeys from London to Tokyo departing on the 30th of August 2023 and returning on the 15th of September 2023. 
-
-# |   Journey ID | Travel Direction   | Departure           | Arrival             | Journey Start   | Journey End   | Intermediate Departure   | Intermediate Arrival   | Airline    |   Flight Duration (hrs) | Total       |
-# |-------------:|:-------------------|:--------------------|:--------------------|:----------------|:--------------|:-------------------------|:-----------------------|:-----------|------------------------:|:------------|
-# |          167 | Outbound           | 2023-08-30T09:40:00 | 2023-08-31T10:40:00 | LHR             | HND           | N/A                      | CDG                    | AIR France |                     10.5 | 1422.79 EUR |
-# |          167 | Outbound           | 2023-08-31T10:40:00 | 2023-08-31T22:40:00 | LHR             | HND           | CDG                      | N/A                    | AIR France |                      3.5 |            |
-# |          167 | Inbound            | 2023-09-15T09:40:00 | 2023-09-16T05:35:00 | HND             | LHR           | N/A                      | CDG                    | AIR France |                     10.5 |            |
-# |          167 | Inbound            | 2023-09-16T06:35:00 | 2023-09-16T07:35:00 | HND             | LHR           | CDG                      | N/A                    | AIR France |                      3.5 |            |
-# |          168 | Outbound           | 2023-08-30T09:40:00 | 2023-08-31T22:40:00 | LHR             | HND           | N/A                      | N/A                    | Air Tokyo  |                     10.5 | 1550 EUR    |
-# |          168 | Inbound            | 2023-09-15T09:40:00 | 2023-09-16T07:35:00 | HND             | LHR           | n/a                      | N/A                    | Air Tokyo  |                      3.5 |            |
-
-# "
-# Return all legs for each Journey ID. when the requests mentions flight or flights, it really means Journey.
-
-# '''
-#     return query
-
-
 def query_template(query_user):
 
     """
@@ -118,38 +97,43 @@ def query_template(query_user):
     query (str): A formatted string that describes the required structure of the response.
     """
 
-    query = f'''Based on the user query about flights:{query_user}, respond with following structure delimited by quotation marks as an example:
+    query = f'''Based on the user query about flights:{query_user}, respond with following structure delimited by quotation marks as an example for a journey with 4 legs, 2 for Outbound and 2 for Inbound flights:
     
-"
-The response should be returned with the structure given which represents one complete journey: 
+## Journey ID: 1, total_duration(hrs): , Total (currency): 
 
-## Journey ID: , Total (In the currency):
+### travel_direction: Outbound, Journey Start: ,Journey End:
+**leg_id:1**
+- Departure Time:
+- Arrival Time: 
+- Intermediate Departure: 	
+- Intermediate Arrival:
+- Airline:
+- flight_duration (hrs):
 
-### Outbound
-For each leg ID, please consider:
-- Departure	
-- Arrival	
-- Journey Start	
-- Journey End 
-- Intermediate Departure	
-- Intermediate Arrival	
-- Airline	
-- Total Duration (hrs)	
+**leg_id:2**
+- Departure Time:######
+- Arrival Time: #####
+- Intermediate Departure:	
+- Intermediate Arrival:
+- Airline:
+- flight_duration (hrs):
 
-### Inbound
-For each leg ID, please consider:
-- Departure	
-- Arrival	
-- Journey Start	
-- Journey End 
-- Intermediate Departure	
-- Intermediate Arrival	
-- Airline	
-- Total Duration (hrs)	
+### travel_direction: Inbound, Journey Start: ,Journey End: 
+**leg_id:3**
+- Departure Time:
+- Arrival Time:
+- Intermediate Departure:	
+- Intermediate Arrival:
+- Airline:
+- flight_duration (hrs):
 
-"
-Please return up to 8 COMPLETE journeys. A complete journey includes all the associated flights.
-Return all legs for each Journey ID. when the requests mentions flight or flights, it really means Journey.
+**leg_id:4**
+- Departure Time
+- Arrival Time: 
+- Intermediate Departure:	
+- Intermediate Arrival:
+- Airline:
+- flight_duration (hrs):
 
 '''
     return query

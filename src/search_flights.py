@@ -1,10 +1,16 @@
+"""
+This module provides the function for requesting data from the flights API.
+It uses transform_data() and load_data() to transform the data and load it
+into the sqllite database.
+"""
+
 from amadeus import Client, ResponseError
 from create_database import load_data
-from data_transformation import journey_data
+from data_transformation import transform_data
 from utils import read_config
 import os
 
-def search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults):
+def pull_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults):
     """
     Searches for flights using the Amadeus API and returns structured data.
 
@@ -59,7 +65,7 @@ def search_for_flights(originLocationCode, destinationLocationCode, departureDat
         print(f"Error code airline lookup: {error.code}")
         print(f"Error message airline lookup: {error.description}")
 
-    df_flights, journey_pricing, flights = journey_data(response_flights.data, response_airline_lookup.data, destinationLocationCode, originLocationCode)
+    df_flights, journey_pricing, flights = transform_data(response_flights.data, response_airline_lookup.data, destinationLocationCode, originLocationCode)
     print(df_flights.dtypes)
     db = load_data(journey_pricing, flights)
 

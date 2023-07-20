@@ -1,8 +1,12 @@
+"""
+This module provides the data transformation function
+"""
+
 import pandas as pd
 import numpy as np
 from utils import parse_duration
 
-def journey_data(response_flights_data, response_airline_lookup_data, originLocationCode, destinationLocationCode):
+def transform_data(response_flights_data, response_airline_lookup_data, originLocationCode, destinationLocationCode):
 
     """
     Processes raw flight data and airline lookup data, and returns structured journey data.
@@ -81,7 +85,6 @@ def journey_data(response_flights_data, response_airline_lookup_data, originLoca
     df_flights['flight_departure_at'] = pd.to_datetime(df_flights['flight_departure_at'])
     df_flights['flight_arrival_at'] = pd.to_datetime(df_flights['flight_arrival_at'])
 
-
     outbound_origin = originLocationCode
     outbound_destination = destinationLocationCode
     inbound_origin = destinationLocationCode
@@ -110,9 +113,9 @@ def journey_data(response_flights_data, response_airline_lookup_data, originLoca
     df_flights = pd.merge(df_flights, total_duration, on=['journey_id', 'travel_direction'])
 
     df_flights.rename(columns={'flight_departure_iataCode': 'intermediate_journey_departure', 
-                           'flight_arrival_iataCode': 'intermediate_journey_arrival'}, inplace=True)
+                           'flight_arrival_iataCode': 'intermediate_journey_arrival', 'total': 'journey_price'}, inplace=True)
 
-    journey_pricing = df_flights[['journey_id', 'Journey Start', 'Journey End', 'travel_direction', 'total_duration', 'total']].drop_duplicates()
-    flights = df_flights.drop(columns=['Journey Start', 'Journey End', 'travel_direction', 'total_duration', 'total', 'duration'])
+    journey_pricing = df_flights[['journey_id', 'Journey Start', 'Journey End', 'travel_direction', 'total_duration', 'journey_price', 'currency']].drop_duplicates()
+    flights = df_flights.drop(columns=['Journey Start', 'Journey End', 'total_duration', 'journey_price', 'duration', 'currency'])
 
     return df_flights, journey_pricing, flights

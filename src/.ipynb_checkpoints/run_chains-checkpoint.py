@@ -1,15 +1,17 @@
+"""
+This module provides functionality to get arguments for flight search from user query and 
+to find flights using a language model and a SQL database toolkit.
+"""
+
 import json
 import openai
 from langchain.tools import tool
 from langchain.agents import create_sql_agent
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 from langchain.llms.openai import OpenAI
-from langchain.agents import AgentExecutor
 from langchain.agents.agent_types import AgentType
-from langchain.chat_models import ChatOpenAI
 
-
-def get_args(query_user, openai_key):
+def get_args(query_user, OPENAI_KEY):
     """
     Extracts necessary parameters for flight search from user query using OpenAI API.
     
@@ -63,7 +65,7 @@ def get_args(query_user, openai_key):
     }
     ]
     
-    openai.api_key = openai_key
+    openai.api_key = OPENAI_KEY
 
     message = openai.ChatCompletion.create(
         model="gpt-4-0613",
@@ -94,20 +96,18 @@ def get_args(query_user, openai_key):
 
 # run SQLDatabase chain
 def find_flights(query, llm, db):
-
-        """
+    """
     Executes a search for flights using a language model and a SQL database toolkit.
-
+    
     Parameters:
     query (str): The query to be executed, typically a natural language description of the flights to find.
     llm (LanguageModel): The language model used to process the query and generate SQL commands.
     db (Database): The database object where the flight data is stored and from which data will be retrieved.
-
+    
     Returns:
     Response: The response from the agent executor's run method, typically containing the search results or an error message.
     """
-    
-    llm=llm
+        
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
     agent_executor = create_sql_agent(
         llm=llm,
@@ -115,7 +115,5 @@ def find_flights(query, llm, db):
         verbose=True,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
     )
- 
+    
     return agent_executor.run(query)
-
-
