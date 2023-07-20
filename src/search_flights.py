@@ -6,6 +6,7 @@ import os
 
 
 def search_for_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults):
+
     # get API keys
     try:
         api_key, api_secret = read_config()
@@ -13,7 +14,7 @@ def search_for_flights(originLocationCode, destinationLocationCode, departureDat
         print(f"Failed to read API key from config: {e}, trying other key")
         api_key = os.getenv('API_KEY')  # make sure this environment variable is set
         api_secret = os.getenv('API_SECRET')
-        
+
     # Assuming you've defined api_key and api_secret somewhere else
     amadeus = Client(client_id=api_key, client_secret=api_secret)
 
@@ -43,7 +44,8 @@ def search_for_flights(originLocationCode, destinationLocationCode, departureDat
         print(f"Error code airline lookup: {error.code}")
         print(f"Error message airline lookup: {error.description}")
 
-    df_flights = journey_data(response_flights.data, response_airline_lookup.data, originLocationCode, destinationLocationCode)
-    db = load_data(df_flights)
+    df_flights, journey_pricing, flights = journey_data(response_flights.data, response_airline_lookup.data, destinationLocationCode, originLocationCode)
+    print(df_flights.dtypes)
+    db = load_data(journey_pricing, flights)
 
-    return db, df_flights
+    return db, df_flights, journey_pricing, flights
