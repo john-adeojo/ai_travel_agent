@@ -1,0 +1,13 @@
+name: flight_demo_env
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+    - langchain[llm]==0.0.228
+    - openai==0.27.8
+    - pandas==2.0.3
+    - streamlit==1.24.0
+    - jupyterlab
+    - amadeus==8.1.0
