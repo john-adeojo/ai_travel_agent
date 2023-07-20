@@ -20,7 +20,7 @@ def read_config():
     """
     
     # Get the directory of the current script
-    script_dir = "../src/"
+    script_dir = "C:/Users/johna/OneDrive/Documents/api_keys"
 
     # Construct the full path to the configuration file
     file_path = os.path.join(script_dir, "apikeys.yml")
@@ -81,7 +81,7 @@ def parse_duration(duration_str):
 
     return duration_in_hours
 
-def query_template(query_user):
+def query_template(num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode, TypeofflightReuqest):
 
     """
     Generates a formatted query string for flight search based on the user query.
@@ -97,9 +97,11 @@ def query_template(query_user):
     query (str): A formatted string that describes the required structure of the response.
     """
 
-    query = f'''Based on the user query about flights:{query_user}, respond with following structure delimited by quotation marks as an example for a journey with 4 legs, 2 for Outbound and 2 for Inbound flights:
+    query = f'''Find me the {TypeofflightReuqest} journey from {originLocationCode} to {destinationLocationCode}. 
+    Departing from {originLocationCode} on {departureDate} and returning from {destinationLocationCode} on {returnDate}.
     
-
+    respond with following structure delimited by quotation marks as an example for a journey with 4 legs, 2 for Outbound and 2 for Inbound flights:
+    
 ## Journey ID: 1, Total (currency): 
 
 ### travel_direction: Outbound, Journey Start: , Journey End: , total_duration(hrs): 
