@@ -25,16 +25,16 @@ if OPENAI_KEY:
     # If OpenAI key and data_url are set, enable the chat interface
     st.title("Find my flights🛫 ")
     query_user = placeholder.text_input("Search for flights...")
-    query = query_template(query_user)
     
     if st.button("Submit"):
         # num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode = get_args(query_user, OPENAI_KEY)
         try:
-            num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode = get_args(query_user, OPENAI_KEY)
+            num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode, TypeofflightReuqest = get_args(query_user, OPENAI_KEY)
         except Exception:
             st.write("Please make sure you tell us the origin, destination, departure and return dates, and number of adults")        
         db = pull_flights(originLocationCode, destinationLocationCode, departureDate, returnDate, num_adults)
         llm = ChatOpenAI(temperature=0, model="gpt-4-0613", openai_api_key=OPENAI_KEY)
+        query = query_template(num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode, TypeofflightReuqest)
         response = find_flights(query, llm, db)
         st.markdown(f"Here's your suggested Journey: : {response}")
 

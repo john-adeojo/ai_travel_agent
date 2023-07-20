@@ -99,9 +99,10 @@ def query_template(query_user):
 
     query = f'''Based on the user query about flights:{query_user}, respond with following structure delimited by quotation marks as an example for a journey with 4 legs, 2 for Outbound and 2 for Inbound flights:
     
-## Journey ID: 1, total_duration(hrs): , Total (currency): 
 
-### travel_direction: Outbound, Journey Start: ,Journey End:
+## Journey ID: 1, Total (currency): 
+
+### travel_direction: Outbound, Journey Start: , Journey End: , total_duration(hrs): 
 **leg_id:1**
 - Departure Time:
 - Arrival Time: 
@@ -118,7 +119,7 @@ def query_template(query_user):
 - Airline:
 - flight_duration (hrs):
 
-### travel_direction: Inbound, Journey Start: ,Journey End: 
+### travel_direction: Inbound, Journey Start: , Journey End: , total_duration(hrs): 
 **leg_id:3**
 - Departure Time:
 - Arrival Time:

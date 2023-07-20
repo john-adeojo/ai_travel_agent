@@ -59,8 +59,13 @@ def get_args(query_user, OPENAI_KEY):
             "description": '''Based on the query, respond with an airport IATA code from the city which the traveler will depart from. E.g CDG for Charles de Gaulle Airport'''
           },
 
+         "TypeofflightReuqest": {
+            "type": "string",
+            "description": '''Based on the query, respond with the type of flight the user is requesting E.g cheapest, shortest, fastest, least stops etc.'''
+          },
+
         },
-        "required": ["destinationLocationCode", "originLocationCode", "departureDate", "returnDate", "num_adults"]
+        "required": ["destinationLocationCode", "originLocationCode", "departureDate", "returnDate", "num_adults", "TypeofflightReuqest"]
       }
     }
     ]
@@ -84,14 +89,18 @@ def get_args(query_user, OPENAI_KEY):
     returnDate = parsed_data['returnDate']
     destinationLocationCode = parsed_data['destinationLocationCode']
     originLocationCode = parsed_data['originLocationCode']
+    TypeofflightReuqest = parsed_data['TypeofflightReuqest']
+
     
     print("Number of Adults: ", num_adults)
     print("Departure Date: ", departureDate)
     print("Return Date: ", returnDate)
     print("Destination Location Code: ", destinationLocationCode)
     print("Origin Location Code: ", originLocationCode)
+    print("Origin Location Code: ", TypeofflightReuqest)
 
-    return num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode
+
+    return num_adults, departureDate, returnDate, destinationLocationCode, originLocationCode, TypeofflightReuqest
 
 
 # run SQLDatabase chain
