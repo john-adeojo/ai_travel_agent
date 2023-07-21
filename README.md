@@ -42,7 +42,7 @@ You can open a terminal from within Jupyter Labs and run the following command:
 streamlit run front_end.py
 ```
 
-## Chanhing the Model
+## Changing the Model
 
 Change the model by navigating to line 76 in `run_chains.py` and line 36 in `front_end.py`. You can use `gpt-3.5-turbo-0613`
 
